@@ -307,6 +307,17 @@ components:
     description: "Bottom chrome strip with date left and deck name right. Uppercase Barlow Condensed 600 at 0.75 opacity."
 ---
 
+## Frontend Slides Fixed-Stage Policy
+
+When this design system is used by the `frontend-slides` skill, generate the final deck as a **fixed 1920×1080 stage** that scales uniformly to the browser viewport. The deck should preserve a 16:9 slide canvas on every screen, including phones; it may letterbox or pillarbox, but it should not reflow slide content for mobile.
+
+This policy has higher priority than any source-template responsive behavior described later in this file. If a later section says the original template is viewport-fluid, treat that as source history only, not as the target generation model for `frontend-slides`.
+
+This policy applies even if the source template was originally implemented with viewport-fluid CSS such as `100vw`, `100vh`, `vw`, `vh`, or `clamp()`. Treat those values as design proportions to translate into 1920×1080 stage coordinates, not as live responsive rules in the generated deck.
+
+Use `deck-stage.js` or an equivalent inline stage scaler for final output: render each slide at 1920×1080, scale the whole stage with one transform, and verify rendered screenshots for both text overflow and panel overlap.
+
+
 ## Overview
 
 Stencil & Tablet is a **poster-loud, type-led** presentation system. The premise is a single display face — Stardos Stencil — handling every headline, every numeral, every featured moment, with characteristic stencil ink-breaks giving each glyph a slightly-distressed industrial register. The supporting cast is Barlow Condensed (extra-heavy 600–900, uppercase, generous tracking) running all metadata, chrome, pills, and legends — and Inter handling the small set of body paragraphs that exist mostly to caption the loud type above them.

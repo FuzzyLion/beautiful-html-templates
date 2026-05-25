@@ -273,6 +273,17 @@ components:
     description: "A full-bleed inverse panel (ink background) holding a single oversized Bodoni numeral (~460px weight 900) centered. Used as a section-opener device. Topbar / footline strings sit absolutely positioned in the panel corners."
 ---
 
+## Frontend Slides Fixed-Stage Policy
+
+When this design system is used by the `frontend-slides` skill, generate the final deck as a **fixed 1920×1080 stage** that scales uniformly to the browser viewport. The deck should preserve a 16:9 slide canvas on every screen, including phones; it may letterbox or pillarbox, but it should not reflow slide content for mobile.
+
+This policy has higher priority than any source-template responsive behavior described later in this file. If a later section says the original template is viewport-fluid, treat that as source history only, not as the target generation model for `frontend-slides`.
+
+This policy applies even if the source template was originally implemented with viewport-fluid CSS such as `100vw`, `100vh`, `vw`, `vh`, or `clamp()`. Treat those values as design proportions to translate into 1920×1080 stage coordinates, not as live responsive rules in the generated deck.
+
+Use `deck-stage.js` or an equivalent inline stage scaler for final output: render each slide at 1920×1080, scale the whole stage with one transform, and verify rendered screenshots for both text overflow and panel overlap.
+
+
 ## Overview
 
 Emerald Editorial is a **bold display-serif editorial system** rooted in the visual language of fashion magazines and 19th-century theatrical playbills. The foundational premise is a single typographic face — **Bodoni Moda at weight 900** — used at unapologetic scale: 92px for routine headlines, 130–200px for statements and section openers, and 460px for hero numerals. The serif is loud, theatrical, and confident. Every slide leads with type, not with image.

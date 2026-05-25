@@ -188,6 +188,17 @@ components:
     description: "Oversized organic blob at very low opacity placed behind content as atmospheric wallpaper. Functions like a watermark cloud."
 ---
 
+## Frontend Slides Fixed-Stage Policy
+
+When this design system is used by the `frontend-slides` skill, generate the final deck as a **fixed 1920×1080 stage** that scales uniformly to the browser viewport. The deck should preserve a 16:9 slide canvas on every screen, including phones; it may letterbox or pillarbox, but it should not reflow slide content for mobile.
+
+This policy has higher priority than any source-template responsive behavior described later in this file. If a later section says the original template is viewport-fluid, treat that as source history only, not as the target generation model for `frontend-slides`.
+
+This policy applies even if the source template was originally implemented with viewport-fluid CSS such as `100vw`, `100vh`, `vw`, `vh`, or `clamp()`. Treat those values as design proportions to translate into 1920×1080 stage coordinates, not as live responsive rules in the generated deck.
+
+Use `deck-stage.js` or an equivalent inline stage scaler for final output: render each slide at 1920×1080, scale the whole stage with one transform, and verify rendered screenshots for both text overflow and panel overlap.
+
+
 ## Overview
 
 Playful is a **hand-crafted editorial system** anchored by a single warm canvas — a peach-clay `{colors.bg}` (#F0C8A0) — with charcoal `{colors.text}` (#1A1A1A) as the only meaningful "color." Everything reads as ink-on-clay-paper. There are no secondary brand colors, no gradients, no chromatic accents. The system commits fully to a one-color discipline and finds its expressiveness in shape, weight, rotation, and hand-drawn marks rather than in palette variety.

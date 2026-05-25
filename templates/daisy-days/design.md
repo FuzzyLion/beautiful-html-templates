@@ -204,6 +204,17 @@ components:
     padding: "{spacing.pad-card-md}"
 ---
 
+## Frontend Slides Fixed-Stage Policy
+
+When this design system is used by the `frontend-slides` skill, generate the final deck as a **fixed 1920×1080 stage** that scales uniformly to the browser viewport. The deck should preserve a 16:9 slide canvas on every screen, including phones; it may letterbox or pillarbox, but it should not reflow slide content for mobile.
+
+This policy has higher priority than any source-template responsive behavior described later in this file. If a later section says the original template is viewport-fluid, treat that as source history only, not as the target generation model for `frontend-slides`.
+
+This policy applies even if the source template was originally implemented with viewport-fluid CSS such as `100vw`, `100vh`, `vw`, `vh`, or `clamp()`. Treat those values as design proportions to translate into 1920×1080 stage coordinates, not as live responsive rules in the generated deck.
+
+Use `deck-stage.js` or an equivalent inline stage scaler for final output: render each slide at 1920×1080, scale the whole stage with one transform, and verify rendered screenshots for both text overflow and panel overlap.
+
+
 ## Overview
 
 Daisy Days is a **cheerful childlike presentation system** rooted in a single typographic pairing: the chubby rounded display face **Fredoka One** for every headline, and the friendly humanist sans **Quicksand** for every line of body and meta text. The visual language descends from picture-book illustration and sticker-sheet kawaii: every shape carries a charcoal 2D outline, every elevated element casts a solid offset shadow, and every surface is a pastel from a sunny garden palette.

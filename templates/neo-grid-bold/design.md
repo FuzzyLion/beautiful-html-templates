@@ -225,6 +225,17 @@ components:
     opacity: 0.85
 ---
 
+## Frontend Slides Fixed-Stage Policy
+
+When this design system is used by the `frontend-slides` skill, generate the final deck as a **fixed 1920×1080 stage** that scales uniformly to the browser viewport. The deck should preserve a 16:9 slide canvas on every screen, including phones; it may letterbox or pillarbox, but it should not reflow slide content for mobile.
+
+This policy has higher priority than any source-template responsive behavior described later in this file. If a later section says the original template is viewport-fluid, treat that as source history only, not as the target generation model for `frontend-slides`.
+
+This policy applies even if the source template was originally implemented with viewport-fluid CSS such as `100vw`, `100vh`, `vw`, `vh`, or `clamp()`. Treat those values as design proportions to translate into 1920×1080 stage coordinates, not as live responsive rules in the generated deck.
+
+Use `deck-stage.js` or an equivalent inline stage scaler for final output: render each slide at 1920×1080, scale the whole stage with one transform, and verify rendered screenshots for both text overflow and panel overlap.
+
+
 ## Overview
 
 Neo-Grid Bold is a **heavy editorial poster system** built on a single structural premise: every slide is a 12-column × 8-row CSS grid inset 40px from the slide edges, with 12px gaps between cells. Composition happens by assigning colored panels to grid spans — `grid-column: 4 / span 5` and `grid-row: 1 / span 5` is how layout is described. The grid is rigid; the visual variety comes from how panels of `{colors.paper}`, `{colors.ink}`, and `{colors.accent-lemon}` are arranged across cells.
@@ -459,6 +470,25 @@ This means: every typographic and layout decision in the system is made at 1920�
 - The `<deck-stage>` web component manages slide-to-slide navigation, viewport scaling, and presenter chrome.
 - Keyboard navigation, touch swipe, and mouse wheel are handled by the stage component, not by inline scripts.
 - The slide canvas is constant 1920×1080 regardless of browser viewport; the stage proportionally scales it.
+
+### Frontend Slides Integration Note
+
+When using this design system inside the `frontend-slides` skill, preserve the
+fixed 1920×1080 canvas model. Do not translate the 12-column × 8-row grid,
+fixed typography, and fixed spacing into independent viewport-responsive
+`clamp()` values. That breaks the relationship between panel size and type
+scale, especially with CJK text, and can create clipping even when the original
+template would have scaled cleanly.
+
+The safe single-file implementation is:
+
+1. Render each slide as a 1920×1080 `.stage`.
+2. Scale that stage proportionally to fit the current viewport.
+3. Keep the internal `.frame` grid at `inset: 40px`, `12` columns, `8` rows,
+   and `12px` gaps.
+4. Fit content at the 1920×1080 design size first, then scale the whole stage.
+5. Verify both text overflow and panel overlap in the rendered browser. A
+   `scrollHeight` check can pass while one grid panel visually covers another.
 
 ### Print Behavior
 The template uses the deck-stage component for rendering. Print export depends on the component's print handling, which may render slide-per-page or capture the active slide only.
