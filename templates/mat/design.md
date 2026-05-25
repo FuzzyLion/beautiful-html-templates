@@ -155,17 +155,6 @@ components:
     description: "The wood-brown atmospheric glow that lives on every dark slide via ::before. Non-optional on dark surfaces; defines the warmth of the system."
 ---
 
-## Frontend Slides Fixed-Stage Policy
-
-When this design system is used by the `frontend-slides` skill, generate the final deck as a **fixed 1920×1080 stage** that scales uniformly to the browser viewport. The deck should preserve a 16:9 slide canvas on every screen, including phones; it may letterbox or pillarbox, but it should not reflow slide content for mobile.
-
-This policy has higher priority than any source-template responsive behavior described later in this file. If a later section says the original template is viewport-fluid, treat that as source history only, not as the target generation model for `frontend-slides`.
-
-This policy applies even if the source template was originally implemented with viewport-fluid CSS such as `100vw`, `100vh`, `vw`, `vh`, or `clamp()`. Treat those values as design proportions to translate into 1920×1080 stage coordinates, not as live responsive rules in the generated deck.
-
-Use `deck-stage.js` or an equivalent inline stage scaler for final output: render each slide at 1920×1080, scale the whole stage with one transform, and verify rendered screenshots for both text overflow and panel overlap.
-
-
 ## Overview
 
 Mat is a **material-tactile presentation system** built around a single environmental premise: a deep forest-green surface warmed from the bottom-right corner by a low wood-brown glow. The atmosphere does the heavy lifting — before any content lands, the slide already feels like a workbench in afternoon light. Cream type floats directly on the green field; there are no cards, no panels, no frames. Where the system needs to break the green, it does so with a single cream inset box (the info-card) that reads as a piece of warm paper laid on the dark surface.
